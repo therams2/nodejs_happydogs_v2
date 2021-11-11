@@ -4,6 +4,7 @@ const UserModel = require('../models/user');
 const PetModel = require('../models/pet');
 const MarkerModel = require('../models/marker');
 const AddressModel = require('../models/address');
+const WalksModel = require('../models/walks');
 
 const TariffModel = require('../models/tariff/tariff');
 const TariffPriceModel = require('../models/tariff/tariff_has_price');
@@ -17,7 +18,7 @@ const Pet = PetModel(sequelize, Sequelize);
 const User = UserModel(sequelize, Sequelize);
 const Marker = MarkerModel(sequelize, Sequelize);
 const Address = AddressModel(sequelize, Sequelize);
-
+const Walks = WalksModel(sequelize,Sequelize);
 const Tariff = TariffModel(sequelize, Sequelize);
 const TariffPrice = TariffPriceModel(sequelize, Sequelize);
 const TariffPriceHasT = TariffPriceHasTModel(sequelize, Sequelize);
@@ -34,6 +35,7 @@ module.exports = {
     Pet,
     Marker,
     Address,
+    Walks,
 
 
     Tariff,

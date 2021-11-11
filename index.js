@@ -1,7 +1,8 @@
 const express = require('express');
 const path = require('path');
-require('dotenv').config();
 const cors = require('cors');
+
+require('dotenv').config();
 
 // Database
 require('./database/config');
@@ -22,10 +23,12 @@ app.use(express.json());
 
 
 // Rutas
-app.use('/api/login', require('./routes/auth'));
-app.use('/api/pets', require('./routes/pets'));
-app.use('/api/profile', require('./routes/profile'));
-app.use('/api/tariff', require('./routes/tariff'));
+app.use('/api/login'  ,  require('./routes/auth'));
+app.use('/api/users'   ,  require('./routes/users'));
+app.use('/api/pets'   ,  require('./routes/pets'));
+app.use('/api/profile',  require('./routes/profile'));
+app.use('/api/tariff' ,  require('./routes/tariff'));
+app.use('/api/walks' ,  require('./routes/walks'));
 
 
 // Path público
@@ -34,9 +37,7 @@ app.use(express.static(publicPath));
 
 
 server.listen(process.env.PORT, (err) => {
-
     if (err) throw new Error(err);
-
     console.log('Servidor corriendo en puerto', process.env.PORT);
 
 });

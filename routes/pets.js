@@ -8,7 +8,6 @@ const router = Router();
 router.post('/register', [
     check('name', 'El nombre es obligatorio').not().notEmpty(), //check es un middleware que verifica campo por campo y añadir
     check('age', 'La edad es obligatoria').not().notEmpty(),
-    check('type', 'El tipo de animal es obligatorio').not().notEmpty(),
     check('race', 'La raza es obligatoria').not().notEmpty(),
     validarCampos //exportamos de validar-campos
 ], crearPet);

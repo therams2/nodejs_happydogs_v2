@@ -35,7 +35,7 @@ const getPetData = async(req, res = response) => {
     console.log(id);
     console.log("data");
     try {
-        const existId = await Pet.findAll({ where: { id_user: id } });
+        const existId = await Pet.findAll({ where: { user_id: id } });
         if (!existId) {
             console.log("no existe");
             return res.status(404).json({
@@ -58,9 +58,6 @@ const getPetData = async(req, res = response) => {
         })
     }
 }
-
-
-
 module.exports = {
     crearPet,
     getPetData
