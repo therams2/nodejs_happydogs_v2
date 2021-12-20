@@ -8,12 +8,7 @@ const router = Router();
 
 
 // SIGNUP
-router.post('/signup', [
-    check('name', 'El nombre es obligatorio').not().notEmpty(), //check es un middleware que verifica campo por campo y añadir
-    check('password', 'El password obligatorio').not().notEmpty(), //no se ejecuta hasta que el metodo next se ejecute del anterior
-    check('email', 'El email obligatorio').not().notEmpty().isEmail(),
-    validarCampos //exportamos de validar-campos
-], crearUsuario);
+router.post('/signup', crearUsuario);
 
 // SIGNIN
 router.post('/signin', [

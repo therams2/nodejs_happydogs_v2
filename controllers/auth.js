@@ -5,26 +5,18 @@ const { generarJWT } = require('../helpers/jwt');
 const bcrypt = require('bcryptjs');
 
 const crearUsuario = async(req, res = response) => {
+    console.log(req.body.user);
     //validamos el email que no exista
-    const { email, password } = req.body;
+    const { password } = req.body.user;
     try {
-        const existEmail = await User.findOne({ where: { email: email } });
-        if (existEmail) {
-            return res.status(400).json({ //return actua como break
-                ok: false,
-                msg: "El correo ya existe en la base de datos"
-            });
-        }
-
         const userdata = req.body;
-
         // Encriptar contraseña
         const salt = bcrypt.genSaltSync();
         userdata.password = bcrypt.hashSync(password, salt);
         console.log(userdata.password);
 
         // Creamos new user
-        const user = await User.create(userdata);
+        const user = await User.create(userdata.user);
 
         // Generar mi JWT
         const token = await generarJWT(user.id);
