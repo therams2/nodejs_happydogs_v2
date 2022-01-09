@@ -1,0 +1,78 @@
+Comandos de git
+
+
+git --version
+git help
+git  config --global -e  
+
+
+
+
+@ -1,13 +1,20 @@
+package com.kiritek.myscie.v2.core.services.sciecom;
+
+import com.kiritek.myscie.v2.data.entities.tesoreria.BankAccountSTP;
+import com.kiritek.myscie.v2.data.entities.tesoreria.BankAccountSTP_;
+import com.kiritek.myscie.v2.data.repositories.sciecom.AccountSTPRepository;
+import com.kiritek.myscie.v2.model.response.sciecom.AccountSTPStatusDTO;
+import com.sun.tools.javac.util.Log;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
+import java.util.List;
+
+@ -53,7 +60,7 @@ public class AccountSTPService {
+    }
+
+    //  Get all accounts stp with Assigned and only one found account
+    @Transactional
+    @Transactional(readOnly = true)
+    public List<AccountSTPStatusDTO> getAllAccountSTPWithAssigned(String AccountStp) {
+
+        if(AccountStp == ""){
+@ -111,15 +118,42 @@ public class AccountSTPService {
+    }
+
+    //  Get AccountSTP no-assigned
+    @Transactional
+    public List<AccountSTPDTO> getListAccountUnassigned() {
+    @Transactional(readOnly = true)
+    public List<AccountSTPDTO> getListAccountUnassigned(Long accountStpId) {
+        if(accountStpId>0){
+            System.out.println("Buscar cuentaSTP y agregarla");
+        }else{
+            System.out.println("No hacer nada solo regresar cuentas STP");
+        }
+
+        List<AccountSTPDTO> stp = entityManager.
+                createQuery("select new com.kiritek.myscie.v2.model.response.sciecom.AccountSTPDTO(A.id,A.accountSTP) from AccountSTP A where not exists(select B.id_cuenta_stp from BankAccountSTP B where B.id_cuenta_stp = A.id)and A.status = '0'")
+                createQuery("select new com.kiritek.myscie.v2.model.response.sciecom.AccountSTPDTO(A.id,A.accountSTP) from AccountSTP A where not exists(select B.id_cuenta_stp from BankAccountSTP B where B.id_cuenta_stp = A.id)and A.status = '1'")
+                .getResultList();
+        List<Long> ids = new ArrayList<>();
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        // Instanciamos criteriaBuilder con el entityManager(será la clase que implemente la lógica y conexión con la base.)
+        CriteriaBuilder cBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<BankAccountSTP> query = cBuilder.createQuery(BankAccountSTP.class); //
+        Root<BankAccountSTP> root = query.from(BankAccountSTP.class); // Configuramos la tabla(entidad) en la que vamos a trabajar
+        // Predicate es una clausula que utiliza la Criteria API para poder crear condiciones where.
+        query.select(root).where(cBuilder.notEqual(root.get(BankAccountSTP_.id_cuenta_stp),"50"));
+        //for (Long list : ids) {predicates.add(cBuilder.notEqual(root.get("id"),list.longValue()));}
+        //query.where(predicates.toArray(new Predicate[0]));
+
+
+        for (BankAccountSTP list : entityManager.createQuery(query).getResultList()) {
+            System.out.println(list.getId_cuenta_stp()+"id cuenta STP");
+            System.out.println(list.getId()+" ID");
+            ids.add(list.getId_cuenta_stp());
+        }
+
