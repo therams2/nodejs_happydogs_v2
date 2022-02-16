@@ -27,8 +27,6 @@ app.use('/api/login'   ,  require('./routes/auth'));
 app.use('/api/users'   ,  require('./routes/users'));
 app.use('/api/pets'    ,  require('./routes/pets'));
 app.use('/api/profile' ,  require('./routes/profile'));
-app.use('/api/tariff'  ,  require('./routes/tariff'));
-app.use('/api/walks'   ,  require('./routes/walks'));
 
 
 // Path público

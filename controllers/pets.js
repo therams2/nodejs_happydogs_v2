@@ -2,14 +2,17 @@ const { response } = require('express');
 const { Pet } = require('../database/config');
 
 const crearPet = async(req, res = response) => {
-    //validamos el email que no exista
     const { name } = req.body;
     try {
-        const existName = await Pet.findOne({ where: { name: name } });
+        const existName = await Pet.findOne(
+            { where: 
+                { name: name } 
+            });
+            
         if (existName) {
-            return res.status(400).json({ //return actua como break
+            return res.status(400).json({ 
                 ok: false,
-                msg: "El nombre de esta mascota ya existe"
+                msg: "El nombre de esta mascota no esta disponible"
             });
         }
 
@@ -19,9 +22,10 @@ const crearPet = async(req, res = response) => {
         const pet = await Pet.create(petData);
 
         // Enviamos respuesta
-        res.json({
+        res.status(200).json({
             ok: true,
             pet: pet,
+            msg: "Registro Correcto"
         });
 
     } catch (error) {

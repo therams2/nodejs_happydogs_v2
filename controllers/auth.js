@@ -9,28 +9,30 @@ const crearUsuario = async(req, res = response) => {
     //validamos el email que no exista
     const { password } = req.body.user;
     try {
-        const userdata = req.body;
+        const userdata = req.body.user;
+
         // Encriptar contraseña
         const salt = bcrypt.genSaltSync();
         userdata.password = bcrypt.hashSync(password, salt);
-        console.log(userdata.password);
 
         // Creamos new user
-        const user = await User.create(userdata.user);
+        const user = await User.create(userdata);
 
         // Generar mi JWT
         const token = await generarJWT(user.id);
 
         // Enviamos respuesta
-        res.json({
+        res.status(200).json({
             ok: true,
             user: user,
-            msg2: "hola",
+            msg: "Registro Correcto",
             token
         });
 
     } catch (error) {
         console.log(error);
+        res.status(500);
+        // Enviar error con codigo 500
     }
 }
 
@@ -88,7 +90,7 @@ const signin = async(req, res = response) => {
 
         res.json({
             ok: true,
-            userId: existUser.id,
+            user: {'id' : existUser.id},
             token
         });
 

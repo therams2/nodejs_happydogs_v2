@@ -10,5 +10,6 @@ module.exports = (sequelize, DataType) => {
         password        : DataType.STRING,
         name            : DataType.STRING,
         phone           : DataType.STRING(10),
+        isClient        : DataType.INTEGER
     });
 }
