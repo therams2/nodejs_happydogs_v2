@@ -12,5 +12,6 @@ module.exports = (sequelize, DataType) => {
         age             :    DataType.STRING,
         race            :    DataType.STRING,
         gender          :    DataType.STRING,
+        size            :    DataType.STRING,
     });
 }
