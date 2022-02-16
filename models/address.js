@@ -12,5 +12,6 @@ module.exports = (sequelize, DataType) => {
         street_number     : DataType.STRING(5),
         apartment_number  : DataType.STRING(5),
         post_code         : DataType.STRING(5),
+        street2             :DataType.STRING
     });
 }
